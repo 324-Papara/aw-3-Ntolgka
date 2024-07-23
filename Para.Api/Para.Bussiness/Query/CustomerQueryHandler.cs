@@ -41,4 +41,5 @@ public class CustomerQueryHandler :
     {
         throw new NotImplementedException();
     }
+    
 }

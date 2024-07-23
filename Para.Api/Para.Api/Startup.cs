@@ -10,6 +10,9 @@ using Para.Bussiness;
 using Para.Bussiness.Cqrs;
 using Para.Data.Context;
 using Para.Data.UnitOfWork;
+using FluentValidation;
+using FluentValidation.AspNetCore;
+using Para.Bussiness.Validation;
 
 namespace Para.Api;
 
@@ -25,8 +28,17 @@ public class Startup
     
     public void ConfigureServices(IServiceCollection services)
     {
+        
+        services.AddFluentValidationAutoValidation();
+        services.AddFluentValidationClientsideAdapters();
+        
+        services.AddValidatorsFromAssemblyContaining<CustomerValidator>()
+            .AddValidatorsFromAssemblyContaining<CustomerAddressValidator>()
+            .AddValidatorsFromAssemblyContaining<CustomerDetailValidator>()
+            .AddValidatorsFromAssemblyContaining<CustomerPhoneValidator>();
                
-        services.AddControllers().AddJsonOptions(options =>
+        services.AddControllers()
+            .AddJsonOptions(options =>
         {
             options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
             options.JsonSerializerOptions.WriteIndented = true;
@@ -37,9 +49,10 @@ public class Startup
             c.SwaggerDoc("v1", new OpenApiInfo { Title = "Para.Api", Version = "v1" });
         });
 
-        var connectionStringSql = Configuration.GetConnectionString("MsSqlConnection");
-        services.AddDbContext<ParaDbContext>(options => options.UseSqlServer(connectionStringSql));
-        //services.AddDbContext<ParaDbContext>(options => options.UseNpgsql(connectionStringPostgre));
+        //var connectionStringSql = Configuration.GetConnectionString("MsSqlConnection");
+        //services.AddDbContext<ParaDbContext>(options => options.UseSqlServer(connectionStringSql));
+        var connectionStringPostgre = Configuration.GetConnectionString("PostgresSqlConnection");
+        services.AddDbContext<ParaDbContext>(options => options.UseNpgsql(connectionStringPostgre));
   
 
         services.AddScoped<IUnitOfWork, UnitOfWork>();
@@ -49,7 +62,6 @@ public class Startup
             cfg.AddProfile(new MapperConfig());
         });
         services.AddSingleton(config.CreateMapper());
-
 
         services.AddMediatR(typeof(CreateCustomerCommand).GetTypeInfo().Assembly);
 

@@ -1,4 +1,4 @@
-using MediatR;
+﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Para.Base.Response;
 using Para.Bussiness.Cqrs;
@@ -8,44 +8,44 @@ namespace Para.Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class CustomersController : ControllerBase
+    public class CustomerPhonesController : ControllerBase
     {
         private readonly IMediator mediator;
-        
-        public CustomersController(IMediator mediator)
+
+        public CustomerPhonesController(IMediator mediator)
         {
             this.mediator = mediator;
         }
 
 
         [HttpGet]
-        public async Task<ApiResponse<List<CustomerResponse>>> Get()
+        public async Task<ApiResponse<List<CustomerPhoneResponse>>> Get()
         {
-            var operation = new GetAllCustomerQuery();
+            var operation = new GetAllCustomerPhoneQuery();
             var result = await mediator.Send(operation);
             return result;
         }
 
         [HttpGet("{customerId}")]
-        public async Task<ApiResponse<CustomerResponse>> Get([FromRoute]long customerId)
+        public async Task<ApiResponse<CustomerPhoneResponse>> Get([FromRoute] long customerId)
         {
-            var operation = new GetCustomerByIdQuery(customerId);
+            var operation = new GetCustomerPhoneByIdQuery(customerId);
             var result = await mediator.Send(operation);
             return result;
         }
 
         [HttpPost]
-        public async Task<ApiResponse<CustomerResponse>> Post([FromBody] CustomerRequest value)
+        public async Task<ApiResponse<CustomerPhoneResponse>> Post([FromBody] CustomerPhoneRequest value)
         {
-            var operation = new CreateCustomerCommand(value);
+            var operation = new CreateCustomerPhoneCommand(value);
             var result = await mediator.Send(operation);
             return result;
         }
 
         [HttpPut("{customerId}")]
-        public async Task<ApiResponse> Put(long customerId, [FromBody] CustomerRequest value)
+        public async Task<ApiResponse> Put(long customerId, [FromBody] CustomerPhoneRequest value)
         {
-            var operation = new UpdateCustomerCommand(customerId,value);
+            var operation = new UpdateCustomerPhoneCommand(customerId, value);
             var result = await mediator.Send(operation);
             return result;
         }
@@ -53,7 +53,7 @@ namespace Para.Api.Controllers
         [HttpDelete("{customerId}")]
         public async Task<ApiResponse> Delete(long customerId)
         {
-            var operation = new DeleteCustomerCommand(customerId);
+            var operation = new DeleteCustomerPhoneCommand(customerId);
             var result = await mediator.Send(operation);
             return result;
         }
