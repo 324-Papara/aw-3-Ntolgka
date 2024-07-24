@@ -50,10 +50,10 @@ namespace Para.Api.Controllers
             return result;
         }
 
-        [HttpDelete("{customerId}")]
-        public async Task<ApiResponse> Delete(long customerId)
+        [HttpDelete("{Id}")]
+        public async Task<ApiResponse> Delete(long Id)
         {
-            var operation = new DeleteCustomerAddressCommand(customerId);
+            var operation = new DeleteCustomerAddressCommand(Id);
             var result = await mediator.Send(operation);
             return result;
         }

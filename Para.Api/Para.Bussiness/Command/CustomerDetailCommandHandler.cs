@@ -43,7 +43,7 @@ public class CustomerDetailCommandHandler:
 
     public async Task<ApiResponse> Handle(DeleteCustomerDetailCommand request, CancellationToken cancellationToken)
     {
-        await unitOfWork.CustomerDetailRepository.Delete(request.CustomerId);
+        await unitOfWork.CustomerDetailRepository.Delete(request.Id);
         await unitOfWork.Complete();
         return new ApiResponse();
     }

@@ -43,7 +43,7 @@ public class CustomerPhoneCommandHandler :
 
     public async Task<ApiResponse> Handle(DeleteCustomerPhoneCommand request, CancellationToken cancellationToken)
     {
-        await unitOfWork.CustomerPhoneRepository.Delete(request.CustomerId);
+        await unitOfWork.CustomerPhoneRepository.Delete(request.Id);
         await unitOfWork.Complete();
         return new ApiResponse();
     }
