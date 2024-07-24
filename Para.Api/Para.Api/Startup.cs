@@ -45,6 +45,8 @@ public class Startup
             app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Para.Api v1"));
         }
 
+        app.UseMiddleware<RequestResponseLoggerMiddleware>();
+        
         app.UseMiddleware<HeartbeatMiddleware>();
         app.UseMiddleware<ErrorHandlerMiddleware>();
         

@@ -57,7 +57,7 @@ public class AutofacBusinessModule : Module
         
         //TODO - Register FluentValidation in AutofacBusinessModel(?)
         
-        
+        //Other Services
         builder.RegisterGeneric(typeof(GenericRepository<>))
             .As(typeof(IGenericRepository<>))
             .InstancePerLifetimeScope();
