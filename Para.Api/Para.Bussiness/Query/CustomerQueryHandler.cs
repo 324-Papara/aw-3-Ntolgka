@@ -8,6 +8,7 @@ using Para.Schema;
 
 namespace Para.Bussiness.Query;
 
+//TODO - Separate all methods to different classes as recommended.
 public class CustomerQueryHandler : 
     IRequestHandler<GetAllCustomerQuery,ApiResponse<List<CustomerResponse>>>,
     IRequestHandler<GetCustomerByIdQuery,ApiResponse<CustomerResponse>>,
@@ -37,6 +38,7 @@ public class CustomerQueryHandler :
         return new ApiResponse<CustomerResponse>(mapped);
     }
 
+    //TODO - Complete the GetCustomerByParameter method.
     public async Task<ApiResponse<List<CustomerResponse>>> Handle(GetCustomerByParametersQuery request, CancellationToken cancellationToken)
     {
         throw new NotImplementedException();

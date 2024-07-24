@@ -8,6 +8,7 @@ using Para.Schema;
 
 namespace Para.Bussiness.Command;
 
+//TODO - Separate all methods to different classes as recommended.
 public class CustomerCommandHandler :
     IRequestHandler<CreateCustomerCommand, ApiResponse<CustomerResponse>>,
     IRequestHandler<UpdateCustomerCommand, ApiResponse>,

@@ -57,5 +57,7 @@ namespace Para.Api.Controllers
             var result = await mediator.Send(operation);
             return result;
         }
+        
+        //TODO - Write a GetCustomerByParameter method.
     }
 }

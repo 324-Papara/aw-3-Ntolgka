@@ -28,14 +28,11 @@ public class Startup
     
     public void ConfigureServices(IServiceCollection services)
     {
-        
+        // The definition suggested for adding FluentValidation in the sources is not like this, but the methods they use are deprecate.
         services.AddFluentValidationAutoValidation();
         services.AddFluentValidationClientsideAdapters();
-        
-        services.AddValidatorsFromAssemblyContaining<CustomerValidator>()
-            .AddValidatorsFromAssemblyContaining<CustomerAddressValidator>()
-            .AddValidatorsFromAssemblyContaining<CustomerDetailValidator>()
-            .AddValidatorsFromAssemblyContaining<CustomerPhoneValidator>();
+
+        services.AddValidatorsFromAssemblyContaining<CustomerValidator>();
                
         services.AddControllers()
             .AddJsonOptions(options =>
