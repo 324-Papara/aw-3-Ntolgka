@@ -1,11 +1,14 @@
-﻿using Autofac;
+﻿using System.Data;
+using Autofac;
 using AutoMapper;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
+using Npgsql;
 using Para.Bussiness.Cqrs;
 using Para.Data.Context;
 using Para.Data.GenericRepository;
+using Para.Data.Repository.DapperRepository;
 using Para.Data.UnitOfWork;
 
 
@@ -23,13 +26,18 @@ public class AutofacBusinessModule : Module
     //TODO - InstancePerLifetimeScope() can be used.
     protected override void Load(ContainerBuilder builder)
     {
-        //Database Connection and DbContext
-        //var connectionStringSql = Configuration.GetConnectionString("MsSqlConnection");
+        // Database Connection and DbContext
+        // var connectionStringSql = Configuration.GetConnectionString("MsSqlConnection");
         var connectionStringPostgre = Configuration.GetConnectionString("PostgresSqlConnection");
 
         builder.Register(c => new ParaDbContext(new DbContextOptionsBuilder<ParaDbContext>()
             .UseNpgsql(connectionStringPostgre).Options))   // .UseSqlServer(connectionStringSql) for MSSQL
             .AsSelf()
+            .InstancePerLifetimeScope();
+        
+        // IDbConnection for Dapper
+        builder.Register(c => new NpgsqlConnection(connectionStringPostgre))  // Use SqlConnection for SQL Server
+            .As<IDbConnection>()
             .InstancePerLifetimeScope();
         
         //Mapper
@@ -42,7 +50,7 @@ public class AutofacBusinessModule : Module
             .As<IMapper>()
             .SingleInstance();
         
-        //MediatR
+        // MediatR
         builder.RegisterAssemblyTypes(typeof(CreateCustomerCommand).Assembly)
             .AsImplementedInterfaces()
             .InstancePerLifetimeScope();
@@ -55,15 +63,19 @@ public class AutofacBusinessModule : Module
             return t => c.Resolve(t);
         }).InstancePerLifetimeScope();
         
-        //TODO - Register FluentValidation in AutofacBusinessModel(?)
+        // TODO - Register FluentValidation in AutofacBusinessModel(?)
         
-        //Other Services
+        // Other Services
         builder.RegisterGeneric(typeof(GenericRepository<>))
             .As(typeof(IGenericRepository<>))
             .InstancePerLifetimeScope();
         
         builder.RegisterType<UnitOfWork>()
             .As<IUnitOfWork>()
+            .InstancePerLifetimeScope();
+        
+        builder.RegisterType<CustomerRepository>()
+            .As<ICustomerRepository>()
             .InstancePerLifetimeScope();
 
     }

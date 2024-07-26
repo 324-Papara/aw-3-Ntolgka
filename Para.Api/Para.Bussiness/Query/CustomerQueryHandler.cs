@@ -38,8 +38,7 @@ public class CustomerQueryHandler :
         var mapped = mapper.Map<CustomerResponse>(entity);
         return new ApiResponse<CustomerResponse>(mapped);
     }
-
-    //TODO - Complete the GetCustomerByParameter method.
+    
     public async Task<ApiResponse<List<CustomerResponse>>> Handle(GetCustomerByParametersQuery request, CancellationToken cancellationToken)
     {
         // A query to filter customers based on non-null and non-empty request parameters.

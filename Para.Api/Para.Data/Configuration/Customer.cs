@@ -36,7 +36,7 @@ public class CustomerConfiguration : IEntityTypeConfiguration<Customer>
             .IsRequired(true)
             .OnDelete(DeleteBehavior.Cascade);
 
-        builder.HasOne(x => x.CustomerDetail)
+        builder.HasOne(x => x.CustomerDetails)
             .WithOne(x => x.Customer)
             .HasForeignKey<CustomerDetail>(x => x.CustomerId)
             .IsRequired(true)
