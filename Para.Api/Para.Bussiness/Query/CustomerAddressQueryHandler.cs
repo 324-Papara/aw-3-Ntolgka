@@ -10,8 +10,7 @@ namespace Para.Bussiness.Query;
 
 public class CustomerAddressQueryHandler: 
     IRequestHandler<GetAllCustomerAddressQuery,ApiResponse<List<CustomerAddressResponse>>>,
-    IRequestHandler<GetCustomerAddressByIdQuery,ApiResponse<CustomerAddressResponse>>,
-    IRequestHandler<GetCustomerAddressByParametersQuery,ApiResponse<List<CustomerAddressResponse>>>
+    IRequestHandler<GetCustomerAddressByIdQuery,ApiResponse<CustomerAddressResponse>>
     
 {
     private readonly IUnitOfWork unitOfWork;
@@ -35,11 +34,6 @@ public class CustomerAddressQueryHandler:
         var entity = await unitOfWork.CustomerAddressRepository.GetById(request.CustomerId);
         var mapped = mapper.Map<CustomerAddressResponse>(entity);
         return new ApiResponse<CustomerAddressResponse>(mapped);
-    }
-
-    public async Task<ApiResponse<List<CustomerAddressResponse>>> Handle(GetCustomerAddressByParametersQuery request, CancellationToken cancellationToken)
-    {
-        throw new NotImplementedException();
     }
     
 }

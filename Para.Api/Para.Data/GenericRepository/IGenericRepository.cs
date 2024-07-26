@@ -1,3 +1,5 @@
+using System.Linq.Expressions;
+
 namespace Para.Data.GenericRepository;
 
 public interface IGenericRepository<TEntity> where TEntity : class
@@ -9,4 +11,5 @@ public interface IGenericRepository<TEntity> where TEntity : class
     void Delete(TEntity entity);
     Task Delete(long Id);
     Task<List<TEntity>> GetAll();
+    Task<List<TEntity>> FindAsync(Expression<Func<TEntity, bool>> predicate);
 }

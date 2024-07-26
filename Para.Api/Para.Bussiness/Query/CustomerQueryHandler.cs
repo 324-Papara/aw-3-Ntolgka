@@ -1,3 +1,4 @@
+using System.Linq.Expressions;
 using AutoMapper;
 using MediatR;
 using Para.Base.Response;
@@ -41,7 +42,17 @@ public class CustomerQueryHandler :
     //TODO - Complete the GetCustomerByParameter method.
     public async Task<ApiResponse<List<CustomerResponse>>> Handle(GetCustomerByParametersQuery request, CancellationToken cancellationToken)
     {
-        throw new NotImplementedException();
+        // A query to filter customers based on non-null and non-empty request parameters.
+        Expression<Func<Customer, bool>> query = c => 
+            (string.IsNullOrEmpty(request.Name) || c.FirstName == request.Name) &&
+            (string.IsNullOrEmpty(request.IdentityNumber) || c.IdentityNumber == request.IdentityNumber) &&
+            (request.CustomerId == null || c.Id == request.CustomerId);
+
+        var customers = await unitOfWork.CustomerRepository.FindAsync(query);
+
+        var response = mapper.Map<List<CustomerResponse>>(customers);
+
+        return new ApiResponse<List<CustomerResponse>>(response);
     }
     
 }

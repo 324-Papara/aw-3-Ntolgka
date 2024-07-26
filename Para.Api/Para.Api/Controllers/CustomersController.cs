@@ -58,6 +58,12 @@ namespace Para.Api.Controllers
             return result;
         }
         
-        //TODO - Write a GetCustomerByParameter method.
+        [HttpGet("search")]
+        public async Task<ApiResponse<List<CustomerResponse>>> GetCustomerByParameter([FromQuery] long? customerId, [FromQuery] string? name, [FromQuery] string? identityNumber)
+        {
+            var query = new GetCustomerByParametersQuery(customerId, name, identityNumber);
+            var result = await mediator.Send(query);
+            return result;
+        }
     }
 }

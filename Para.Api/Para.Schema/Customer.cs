@@ -6,7 +6,7 @@ namespace Para.Schema;
 public class CustomerRequest  : BaseRequest
 {
     [JsonIgnore]
-    public int CustomerNumber { get; set; }
+    public int? CustomerNumber { get; set; }
     public string FirstName { get; set; }
     public string LastName { get; set; }
     public string IdentityNumber { get; set; }

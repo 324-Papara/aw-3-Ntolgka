@@ -10,8 +10,7 @@ namespace Para.Bussiness.Query;
 
 public class CustomerDetailQueryHandler: 
     IRequestHandler<GetAllCustomerDetailQuery,ApiResponse<List<CustomerDetailResponse>>>,
-    IRequestHandler<GetCustomerDetailByIdQuery,ApiResponse<CustomerDetailResponse>>,
-    IRequestHandler<GetCustomerDetailByParametersQuery,ApiResponse<List<CustomerDetailResponse>>>
+    IRequestHandler<GetCustomerDetailByIdQuery,ApiResponse<CustomerDetailResponse>>
     
 {
     private readonly IUnitOfWork unitOfWork;
@@ -35,11 +34,6 @@ public class CustomerDetailQueryHandler:
         var entity = await unitOfWork.CustomerDetailRepository.GetById(request.CustomerId);
         var mapped = mapper.Map<CustomerDetailResponse>(entity);
         return new ApiResponse<CustomerDetailResponse>(mapped);
-    }
-
-    public async Task<ApiResponse<List<CustomerDetailResponse>>> Handle(GetCustomerDetailByParametersQuery request, CancellationToken cancellationToken)
-    {
-        throw new NotImplementedException();
     }
     
 }

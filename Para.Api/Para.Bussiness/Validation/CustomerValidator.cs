@@ -7,6 +7,7 @@ public class CustomerValidator : AbstractValidator<CustomerRequest>
 {
     public CustomerValidator()
     {
+        //Deleted CustomerNumber rule from here since we're creating it automatically at the moment. (CustomerCommandHandler - Line 29)
         RuleFor(customer => customer.FirstName)
             .NotEmpty()
             .WithMessage("First name is required.")
@@ -27,9 +28,6 @@ public class CustomerValidator : AbstractValidator<CustomerRequest>
             .WithMessage("Email is required")
             .MaximumLength(100)
             .WithMessage("Email cannot be greater than 100 characters.");
-        RuleFor(customer => customer.CustomerNumber)
-            .NotEmpty()
-            .WithMessage("Customer number is required.");
         RuleFor(customer => customer.DateOfBirth)
             .NotEmpty()
             .WithMessage("Date of birth is required.");
